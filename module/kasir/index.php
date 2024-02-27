@@ -38,7 +38,7 @@ if (isset($_POST['input_barang'])) {
 
 // Proses pembayaran
 if (isset($_POST['bayar'])) {
-    $bayar = $_POST['bayar_input'];
+    $bayar = $_POST['bayar'];
 
     // Validasi input adalah angka
     if (is_numeric($bayar)) {
@@ -101,15 +101,15 @@ function masukkanDataNota($kasir) {
     foreach ($kasir as $barang) {
         $id_barang = $barang['id_barang'];
 
-        // Periksa apakah id_barang ada dalam tabel produk
-        $query_check = "SELECT COUNT(*) AS jumlah FROM produk WHERE id_barang = ?";
+        // Periksa apakah id_barang ada dalam tabel produk dan stok barang cukup
+        $query_check = "SELECT stok FROM produk WHERE id_barang = ?";
         $stmt_check = $conn->prepare($query_check);
         $stmt_check->bind_param("s", $id_barang);
         $stmt_check->execute();
         $result = $stmt_check->get_result();
         $row = $result->fetch_assoc();
 
-        if ($row['jumlah'] > 0) {
+        if ($row && $row['stok'] > 0) {
             $jumlah = $barang['jumlah'];
             $total = $barang['total'];
             $tgl_input = date('Y-m-d H:i:s');
@@ -119,15 +119,15 @@ function masukkanDataNota($kasir) {
             $stmt->bind_param("ssiss", $id_nota, $id_barang, $jumlah, $total, $tgl_input);
             $stmt->execute();
         } else {
-            // Jika id_barang tidak ada dalam tabel produk, berikan pesan kesalahan atau tindakan lainnya
-            echo "<script>alert('Barang dengan ID $id_barang tidak ditemukan.');</script>";
+            // Jika id_barang tidak ada dalam tabel produk atau stok tidak mencukupi, berikan pesan kesalahan atau tindakan lainnya
+            echo "<script>alert('Barang dengan ID $id_barang tidak tersedia atau stok habis.');</script>";
         }
     }
 
     return $id_nota;
 }
-
 ?>
+
 <div class="card mt-5">
     <div class='row'>
         <div class='col-md-8 mb-4'>
@@ -141,8 +141,9 @@ function masukkanDataNota($kasir) {
                             <label for="id_barang">Nama Barang:</label>
                             <select name="id_barang" class='form-control'>
                                 <?php foreach ($produk as $row): ?>
-                                    <option value="<?php echo $row['id_barang']; ?>"><?php echo $row['nama_barang']; ?>
-                                    </option>
+                                    <?php if ($row['stok'] > 0): ?>
+                                        <option value="<?php echo $row['id_barang']; ?>"><?php echo $row['nama_barang']; ?></option>
+                                    <?php endif; ?>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -193,7 +194,7 @@ function masukkanDataNota($kasir) {
                     <form method="POST" action="">
                         <br><br>
                         <label for="bayar_input">Bayar:</label>
-                        <input type="number" name="bayar_input" required>
+                        <input type="number" name="bayar" required>
                         <br>
                         <input type="submit" name="bayar" value="Bayar" class="btn btn-primary btn-sm">
                         <button type="submit" name="clear" value="Clear" class="btn btn-primary btn-sm">Clear
