@@ -1,3 +1,7 @@
+<?php
+require 'function.php';
+?>
+
 <div class="card mt-5">
     <div class="card-header">
         <h2>Tabel Master Diskon</h2>
