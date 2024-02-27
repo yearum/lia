@@ -2,7 +2,7 @@
 
 // cek apakah tombol submit sudah ditekan
 if (isset($_POST['submit'])) {
-    // cek apakah gambar sudah diupload
+    // Panggil fungsi add_produk
     if (add_produk($_POST) > 0) {
         echo "<script>
         alert('Berhasil menambahkan produk!');
