@@ -1,6 +1,9 @@
 <?php
 session_start();
 
+// Include your database connection file here
+require 'function.php';
+
 // Proses form registrasi hanya ketika metode POST digunakan
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Ambil data dari form
@@ -13,28 +16,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $nomor_telepon = $_POST['phone_number'];
 
-    // Validasi dan sanitasi data
-    // Validasi jenis kelamin
-    $jenis_kelamin_values = array("Laki-laki", "Perempuan");
-    if (!in_array($jenis_kelamin, $jenis_kelamin_values)) {
-        echo "Jenis kelamin tidak valid.";
+    // Hash password menggunakan md5
+    $hashedPassword = md5($password);
+
+    // Query untuk menambahkan pengguna ke dalam tabel login
+    $query = "INSERT INTO `login` (`user`, `pass`, `jenis_kelamin`, `tempat_lahir`, `tanggal_lahir`, `alamat`, `email`, `nomor_telepon`) 
+              VALUES ('$nama', '$hashedPassword', '$jenis_kelamin', '$tempat_lahir', '$tanggal_lahir', '$alamat', '$email', '$nomor_telepon')";
+
+    // Jalankan query untuk menambahkan pengguna
+    if ($conn->query($query) === TRUE) {
+        // Jika berhasil mendaftar, arahkan pengguna ke halaman login
+        header("Location: login.php");
         exit;
+    } else {
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
+}
 
-    // Sanitasi data
-    $nama = htmlspecialchars($nama);
-    $tempat_lahir = htmlspecialchars($tempat_lahir);
-    $alamat = htmlspecialchars($alamat);
-    $password = htmlspecialchars($password);
-    $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-    $nomor_telepon = preg_replace('/[^0-9]/', '', $nomor_telepon); // Hapus karakter selain angka
-
-    // Simpan data ke database atau lakukan operasi lainnya
-    // Misalnya, Anda bisa menggunakan fungsi koneksi database dan menjalankan query INSERT di sini.
-
-    // Setelah berhasil mendaftar, arahkan pengguna ke halaman lain (misalnya index2.php)
-    header("Location: prapal.php");
-    exit;}
+// Tutup koneksi database
+$conn->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrasi</title>
-    <link rel="stylesheet" href="css/login2.css">
+    <link rel="stylesheet" href="css/login.css">
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
