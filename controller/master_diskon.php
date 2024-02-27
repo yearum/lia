@@ -15,11 +15,11 @@ if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
         echo "ID Barang: " . $row["id_barang"]. "<br>";
         echo "Nama Diskon: " . $row["nama_diskon"]. "<br>";
-        echo "Diskon Besar: " . $row["diskon_besar"]. "<br>";
+        echo "Diskon Besar: " . $row["besar_diskon"]. "<br>";
         echo "Tanggal Mulai: " . $row["tgl_mulai"]. "<br>";
         echo "Tanggal Akhir: " . $row["tgl_akhir"]. "<br>";
-        echo "Produk Diskon Target: " . $row["produk_diskon_target"]. "<br>";
-        echo "Diskon Target: " . $row["diskon_target"]. "<br>";
+        echo "Produk Diskon: " . $row["produk_diskon"]. "<br>";
+        echo "Diskon Target: " . $row["target_diskon"]. "<br>";
         echo "<hr>";
     }
 } else {
