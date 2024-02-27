@@ -3,7 +3,7 @@
 function add_diskon($conn, $data) {
     // Disini Anda harus menulis logika untuk menambahkan data diskon ke dalam database
     // Misalnya:
-    $query = "INSERT INTO master_diskon (id_barang, nama_diskon, besar_diskon, tgl_mulai, tgl_akhir, produk_diskon_target, diskon) VALUES ('".$data['id_barang']."', '".$data['nama_diskon']."', '".$data['besar_diskon']."', '".$data['tgl_mulai']."', '".$data['tgl_akhir']."', '".$data['produk_diskon_target']."', '".$data['diskon']."')";
+    $query = "INSERT INTO master_diskon (id_barang, nama_diskon, besar_diskon, tgl_mulai, tgl_akhir, produk_diskon, target_diskon) VALUES ('".$data['id_barang']."', '".$data['nama_diskon']."', '".$data['besar_diskon']."', '".$data['tgl_mulai']."', '".$data['tgl_akhir']."', '".$data['produk_diskon_target']."', '".$data['diskon']."')";
     $result = mysqli_query($conn, $query);
     if ($result) {
         return mysqli_affected_rows($conn);
@@ -18,7 +18,7 @@ function add_diskon($conn, $data) {
 // cek apakah tombol submit sudah ditekan
 if (isset($_POST['submit'])) {
     // membuat koneksi database
-    $conn = mysqli_connect("localhost", "username", "password", "kantin_im");
+    $conn = mysqli_connect("localhost", "root", "", "kantin_im");
 
     // cek apakah data diskon berhasil ditambahkan
     if (add_diskon($conn, $_POST) > 0) {
@@ -65,11 +65,11 @@ if (isset($_POST['submit'])) {
                     <td><input type="date" name="tgl_akhir" class="form-control"></td>
                 </tr>
                 <tr>
-                    <td><label for="produk_diskon_target">Produk Diskon Target:</label></td>
+                    <td><label for="produk_diskon_target">Produk Diskon:</label></td>
                     <td><input type="text" name="produk_diskon_target" class="form-control"></td>
                 </tr>
                 <tr>
-                    <td><label for="diskon">Diskon:</label></td>
+                    <td><label for="diskon">Target Diskon:</label></td>
                     <td><input type="text" name="diskon" class="form-control"></td>
                 </tr>
                 <tr>

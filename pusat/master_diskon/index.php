@@ -20,7 +20,6 @@ require 'function.php';
                     <th scope="col">Tanggal Mulai</th>
                     <th scope="col">Tanggal Akhir</th>
                     <th scope="col">Produk Diskon Target</th>
-                    <th scope="col">Diskon</th>
                     <th scope="col">Aksi</th>
                 </tr>
             </thead>
@@ -35,7 +34,7 @@ require 'function.php';
                         <tr>
 
                             <td>
-                                <?= $row['id_diskon'] ?>
+                                <?= $row['id'] ?>
                             </td>
                             <td>
                                 <?= $row['id_barang'] ?>
@@ -53,14 +52,14 @@ require 'function.php';
                                 <?= $row['tgl_akhir'] ?>
                             </td>
                             <td>
-                                <?= $row['produk_diskon_target'] ?>
+                                <?= $row['produk_diskon'] ?>
                             </td>
                             <td>
-                                <?= $row['diskon'] ?>
+                                <?= $row['target_diskon'] ?>
                             </td>
                             <td>
-                                <a href="index.php?page=master_diskon/edit&id_diskon=<?= $row['id_diskon'] ?>">Edit</a> | <a
-                                    href="index.php?page=master_diskon/delete&id_diskon=<?= $row['id_diskon'] ?>"
+                                <a href="index.php?page=master_diskon/edit&id=<?= $row['id'] ?>">Edit</a> | <a
+                                    href="index.php?page=master_diskon/delete&id=<?= $row['id'] ?>"
                                     onclick="javascript:return confirm('Hapus Data Diskon ?');">Delete</a>
                             </td>
                         </tr>
