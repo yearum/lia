@@ -19,6 +19,7 @@ if (isset($_POST['input_barang'])) {
 // Proses pembayaran
 if (isset($_POST['bayar'])) {
     $bayar = $_POST['bayar'];
+    $bayar = $_POST['bayar'];
 
     // Validasi input adalah angka
     if (is_numeric($bayar)) {
@@ -49,8 +50,8 @@ if (isset($_POST["clear"])) {
     alert("Data berhasil dihapus");
     </script>';
 }
-
 ?>
+
 
 <div class="card mt-5">
     <div class='row'>
@@ -65,8 +66,9 @@ if (isset($_POST["clear"])) {
                             <label for="id_barang">Nama Barang:</label>
                             <select name="id_barang" class='form-control'>
                                 <?php foreach ($produk as $row): ?>
-                                    <option value="<?php echo $row['id_barang']; ?>"><?php echo $row['nama_barang']; ?>
-                                    </option>
+                                    <?php if ($row['stok'] > 0): ?>
+                                        <option value="<?php echo $row['id_barang']; ?>"><?php echo $row['nama_barang']; ?></option>
+                                    <?php endif; ?>
                                 <?php endforeach; ?>
                             </select>
                         </div>
