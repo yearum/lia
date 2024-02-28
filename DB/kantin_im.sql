@@ -11,7 +11,7 @@
  Target Server Version : 100428 (10.4.28-MariaDB)
  File Encoding         : 65001
 
- Date: 27/02/2024 23:22:58
+ Date: 28/02/2024 19:23:59
 */
 
 SET NAMES utf8mb4;
@@ -44,11 +44,13 @@ CREATE TABLE `data_member`  (
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `telepon` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id_member`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of data_member
 -- ----------------------------
+INSERT INTO `data_member` VALUES (1, 'doni', 'pakisrejo', 'doni.smpn1@gmail.com', '0987654321');
+INSERT INTO `data_member` VALUES (2, 'lia', 'botoran', 'lia@gmail.com', '23456789');
 
 -- ----------------------------
 -- Table structure for kasir
@@ -141,7 +143,7 @@ INSERT INTO `login` VALUES (6, 'test', '857c058d9cee7f5798d51876963b5ce9', 'Laki
 DROP TABLE IF EXISTS `master_diskon`;
 CREATE TABLE `master_diskon`  (
   `id` int NOT NULL AUTO_INCREMENT,
-  `id_barang` int NULL DEFAULT NULL,
+  `id_barang` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `nama_diskon` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `besar_diskon` decimal(10, 2) NULL DEFAULT NULL,
   `tgl_mulai` date NULL DEFAULT NULL,
@@ -149,11 +151,14 @@ CREATE TABLE `master_diskon`  (
   `produk_diskon` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `target_diskon` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of master_diskon
 -- ----------------------------
+INSERT INTO `master_diskon` VALUES (1, '0', 'DIskon 50%', 1500.00, '2024-02-28', '2024-02-29', 'Pensil', 'SEMUA ORANG');
+INSERT INTO `master_diskon` VALUES (4, 'B003', 'DIskon 50%', 1000.00, '2024-02-28', '2024-02-29', 'Roti', 'SEMUA ORANG');
+INSERT INTO `master_diskon` VALUES (5, 'B001', 'DIskon 50%', 1500.00, '2024-02-28', '2024-02-29', 'Pensil', 'SEMUA ORANG');
 
 -- ----------------------------
 -- Table structure for member
@@ -214,6 +219,10 @@ INSERT INTO `nota` VALUES ('N021', 'B001', 1, 3000, '2024-02-27');
 INSERT INTO `nota` VALUES ('N022', 'B007', 2, 6000, '0000-00-00');
 INSERT INTO `nota` VALUES ('N023', 'B011', 1, 3000, '0000-00-00');
 INSERT INTO `nota` VALUES ('N024', 'B006', 1, 10000, '2024-02-27');
+INSERT INTO `nota` VALUES ('N025', 'B003', 2, 2000, '2024-02-28');
+INSERT INTO `nota` VALUES ('N026', 'B003', 5, 5000, '2024-02-28');
+INSERT INTO `nota` VALUES ('N027', 'B003', 6, 6000, '2024-02-28');
+INSERT INTO `nota` VALUES ('N028', 'B003', 5, 5000, '2024-02-28');
 
 -- ----------------------------
 -- Table structure for produk
@@ -226,6 +235,7 @@ CREATE TABLE `produk`  (
   `stok` int NOT NULL,
   `harga_jual` varchar(9) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `harga_beli` varchar(9) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `status_diskon` int NOT NULL,
   PRIMARY KEY (`id_barang`) USING BTREE,
   INDEX `id_kategori`(`id_kategori` ASC) USING BTREE,
   CONSTRAINT `produk_ibfk_1` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`) ON DELETE NO ACTION ON UPDATE CASCADE
@@ -234,16 +244,16 @@ CREATE TABLE `produk`  (
 -- ----------------------------
 -- Records of produk
 -- ----------------------------
-INSERT INTO `produk` VALUES ('B001', 'K001', 'Pensil', 7, '3000', '1500');
-INSERT INTO `produk` VALUES ('B003', 'K002', 'Roti', 11, '2000', '1500');
-INSERT INTO `produk` VALUES ('B004', 'K002', 'Pilus', 5, '1000', '500');
-INSERT INTO `produk` VALUES ('B005', 'K003', 'Mie', 0, '3000', '5000');
-INSERT INTO `produk` VALUES ('B006', 'K003', 'Nasi Kuning', -4, '10000', '8000');
-INSERT INTO `produk` VALUES ('B007', 'K004', 'Air Putih', 0, '5000', '3000');
-INSERT INTO `produk` VALUES ('B008', 'K004', 'Kopi', 7, '3000', '1500');
-INSERT INTO `produk` VALUES ('B009', 'K005', 'deterjen', 6, '5000', '2500');
-INSERT INTO `produk` VALUES ('B010', 'K001', 'gula', 13, '7000', '14000');
-INSERT INTO `produk` VALUES ('B011', 'K006', 'beras', 45, '12000', '50000');
+INSERT INTO `produk` VALUES ('B001', 'K001', 'Pensil', 7, '3000', '1500', 1);
+INSERT INTO `produk` VALUES ('B003', 'K002', 'Roti', -7, '2000', '1500', 1);
+INSERT INTO `produk` VALUES ('B004', 'K002', 'Pilus', 5, '1000', '500', 0);
+INSERT INTO `produk` VALUES ('B005', 'K003', 'Mie', 0, '3000', '5000', 0);
+INSERT INTO `produk` VALUES ('B006', 'K003', 'Nasi Kuning', -4, '10000', '8000', 0);
+INSERT INTO `produk` VALUES ('B007', 'K004', 'Air Putih', 0, '5000', '3000', 0);
+INSERT INTO `produk` VALUES ('B008', 'K004', 'Kopi', 7, '3000', '1500', 0);
+INSERT INTO `produk` VALUES ('B009', 'K005', 'deterjen', 6, '5000', '2500', 0);
+INSERT INTO `produk` VALUES ('B010', 'K001', 'gula', 13, '7000', '14000', 0);
+INSERT INTO `produk` VALUES ('B011', 'K006', 'beras', 45, '12000', '50000', 0);
 
 -- ----------------------------
 -- Table structure for stok_barang
@@ -254,11 +264,13 @@ CREATE TABLE `stok_barang`  (
   `nama_barang` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `stok` int NOT NULL,
   PRIMARY KEY (`id_barang`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of stok_barang
 -- ----------------------------
+INSERT INTO `stok_barang` VALUES (1, 'Pensil', 6);
+INSERT INTO `stok_barang` VALUES (2, 'Roti', 10);
 
 -- ----------------------------
 -- Table structure for users
