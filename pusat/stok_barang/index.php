@@ -1,7 +1,10 @@
+<?php
+require_once 'function.php';
+?>
 <div class="card mt-5">
     <div class="card-header">
         <h2>Tabel kategori</h2>
-        <a class="btn btn-primary mb-2" href="index.php?page=Kategori/insert"><i class="bi bi-plus-square"></i>
+        <a class="btn btn-primary mb-2" href="index.php?page=stok_barang/insert"><i class="bi bi-plus-square"></i>
             Insert kategori</a>
     </div>
     <div class="card-body">

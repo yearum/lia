@@ -15,11 +15,19 @@ function add_diskon($conn, $data) {
     return 1;
 }
 
+// Koneksi database
+$conn = mysqli_connect("localhost", "root", "", "kantin_im");
+
+// Ambil data produk untuk membuat option
+$query_produk = "SELECT id_barang FROM produk";
+$result_produk = mysqli_query($conn, $query_produk);
+$produk_options = '';
+while ($row = mysqli_fetch_assoc($result_produk)) {
+    $produk_options .= '<option value="' . $row['id_barang'] . '">' . $row['id_barang'] . '</option>';
+}
+
 // cek apakah tombol submit sudah ditekan
 if (isset($_POST['submit'])) {
-    // membuat koneksi database
-    $conn = mysqli_connect("localhost", "root", "", "kantin_im");
-
     // cek apakah data diskon berhasil ditambahkan
     if (add_diskon($conn, $_POST) > 0) {
         echo "<script>
@@ -32,11 +40,10 @@ if (isset($_POST['submit'])) {
         window.location.href = 'index.php?page=master_diskon';
         </script>";
     }
-
-    // menutup koneksi database
-    mysqli_close($conn);
 }
 
+// menutup koneksi database
+mysqli_close($conn);
 ?>
 
 <a href="index.php?page=master_diskon" class="btn btn-primary mb-3"><i class="bi bi-chevron-left"></i> Kembali</a>
@@ -47,9 +54,14 @@ if (isset($_POST['submit'])) {
             <form action="" method="POST">
                 <tr>
                     <td><label for="id_barang">ID Barang:</label></td>
-                    <td><input type="text" name="id_barang" class="form-control"></td>
+                    <td>
+                        <select name="id_barang" class="form-control">
+                            <?php echo $produk_options; ?>
+                        </select>
+                    </td>
                 </tr>
-                <td><label for="nama_diskon">Nama Diskon:</label></td>
+                <tr>
+                    <td><label for="nama_diskon">Nama Diskon:</label></td>
                     <td><input type="text" name="nama_diskon" class="form-control"></td>
                 </tr>
                 <tr>

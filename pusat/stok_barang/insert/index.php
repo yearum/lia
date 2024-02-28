@@ -6,18 +6,18 @@ if (isset($_POST['submit'])) {
     if (add_kategori($_POST) > 0) {
         echo "<script>
         alert('Berhasil menambahkan kategori!');
-        window.location.href = 'index.php?page=Kategori';
+        window.location.href = 'index.php?page=stok_barang';
         </script>";
     } else {
         echo "<script>
         alert('Gagal menambahkan kategori!');
-        window.location.href = 'index.php?page=Kategori';
+        window.location.href = 'index.php?page=stok_barang';
         </script>";
     }
 }
 
 ?>
-<a href="index.php?page=Kategori" class="btn btn-primary mb-3"><i class="bi bi-chevron-left"></i> Kembali</a>
+<a href="index.php?page=stok_barang" class="btn btn-primary mb-3"><i class="bi bi-chevron-left"></i> Kembali</a>
 <div class="card card-body">
     <div class="table-responsive">
         <table class="table table-striped">
