@@ -6,19 +6,19 @@ if (isset($_POST['submit'])) {
     if (add_produk($_POST) > 0) {
         echo "<script>
         alert('Berhasil menambahkan produk!');
-        window.location.href = 'index.php?page=barang';
+        window.location.href = 'index.php?page=data_barang';
         </script>";
     } else {
         echo "<script>
         alert('Gagal menambahkan produk!');
-        window.location.href = 'index.php?page=barang';
+        window.location.href = 'index.php?page=data_barang';
         </script>";
     }
 }
 
 ?>
 
-<a href="index.php?page=barang" class="btn btn-primary mb-3"><i class="bi bi-chevron-left"></i> Kembali</a>
+<a href="index.php?page=data_barang" class="btn btn-primary mb-3"><i class="bi bi-chevron-left"></i> Kembali</a>
 <div class="card card-body">
     <div class="table-responsive">
         <table class="table table-striped">
